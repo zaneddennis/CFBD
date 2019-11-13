@@ -1,0 +1,45 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+    <h2>MESSAGES</h2>
+    <hr>
+
+    <h3>New Message</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Send">
+    </form>
+
+    <hr>
+
+    {% if user.is_authenticated %}
+        {% for other, mList in conversations.items %}
+            <h3>{{ other }}</h3>
+            <br>
+            {% for m in mList %}
+                {{ m.sentTime }}
+                {% if m.sender == user %}
+                    <p>TO: {{ m.recipient }}</p>
+                {% else %}
+                    <p>FROM: {{ m.sender }}</p>
+                {% endif %}
+                {{ m.content }}
+                <br>
+                <br>
+            {% endfor %}
+            <hr>
+        {% endfor %}
+
+        <!--{% for message in messageList %}
+            {{ message }}
+            <hr>
+        {% endfor %}-->
+
+    {% else %}
+        <p>You are not logged in</p>
+    {% endif %}
+
+{% endblock %}

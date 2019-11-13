@@ -1,0 +1,26 @@
+h1 {
+    font-family: 'Alfa Slab One', cursive;
+}
+
+header {
+    background-color: lightgrey;
+}
+
+nav {
+    background-color: darkgreen;
+}
+
+.widget {
+    display: inline-block;
+    width: 45%;
+    background-color: grey;
+}
+
+#countdown {
+    display: block;
+    width: 90%;
+}
+
+nav a {
+    color: white;
+}

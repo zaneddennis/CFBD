@@ -1,0 +1,20 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+    {% load static %}
+    <img src="{% static 'images/logos/' %}{{ school.abbreviation }}.png" alt="School Logo">
+
+    <h2>{{ school.name }} {{ school.mascot }}</h2>
+    <p>{{ school.location }}, {{ school.state }}</p>
+    <p>All Time Record: 0 - 0</p>
+
+    {% if school.coach %}
+        {% if school.coach.user %}
+            <p>Current Coach: <a href="/coach/{{ school.coach_id }}" >{{ school.coach.user }}</a></p>
+        {% else %}
+            <p>Current Coach: AI</p>
+        {% endif %}
+    {% else %}
+        Current Coach: None
+    {% endif %}
+{% endblock %}

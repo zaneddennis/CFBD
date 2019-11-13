@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Orbitron|Permanent=Marker&display=swap" rel="stylesheet">
+    {%  block title %}<title>CFB Dynasties</title>{%  endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div style="text-align: right;">
+            {% if user.is_authenticated %}
+                <p>{{ user.get_username }}</p>
+                <a href="{% url "logout" %}">Log Out</a>
+            {%  else %}
+                <p>You are not logged in</p>
+                <a href="{% url "login" %}">Log In</a>
+            {% endif %}
+        </div>
+
+        <h1>COLLEGE FOOTBALL DYNASTIES</h1>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="">News</a>
+        <a href="{% url "schedule" %}">Scores/Schedules</a>
+        <a href="">Stats</a>
+        <a href="">Standings</a>
+        <a href="">Coaching</a>
+        <a href="">Recruiting</a>
+        <a href="{% url "messages" %}">Messages</a>
+        <a href="">GAMEDAY</a>
+    </nav>
+
+    {% block content %}
+    {%  endblock %}
+
+</body>
+</html>

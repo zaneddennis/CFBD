@@ -1,0 +1,13 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+    <h2>{{ coach.get_name }}</h2>
+    <p>All-Time Record: 0 - 0</p>
+    <br/>
+
+    <a>Current School: <a href="/school/{{ coach.school.abbreviation }}" >{{ coach.school.name }}</a> (0 - 0)</p>
+    <br/>
+
+    <p>Alma Mater: {{ coach.almaMater.name }}</p>
+
+{% endblock %}

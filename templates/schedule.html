@@ -1,0 +1,23 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+    <h2>Scores/Schedules</h2>
+
+    {% for w in range %}
+        <div>
+            <h3>Week {{ w }}</h3>
+
+            {% for game in games %}
+                {% if game.week == w %}
+                    {% if game.awayScore %}
+                        <p>{{ game.away.name }} {{ game.awayScore }} - {{ game.homeScore }} {{ game.home.name }}</p>
+                    {% else %}
+                        <p>{{ game.away.name }} @ {{ game.home.name }} - {{ game.datetime }}</p>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            <hr>
+        </div>
+    {% endfor %}
+{% endblock %}
