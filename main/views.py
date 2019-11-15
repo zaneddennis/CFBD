@@ -1,15 +1,21 @@
 from django.shortcuts import render
 from django.views import generic
 from main.models import *
-from django.db.models import Max, Min
+from django.db.models import F, Max, Min, Count
 from main.forms import *
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+import pandas as pd
+
 
 # constants
 SEASON = 2019
-WEEK = 1
+WEEK = 2
+
+COACHESPOLL = [
+    "LSU", "Ohio State", "Clemson", "Georgia", "Alabama", "Oregon", "Utah", "Minnesota", "Penn State", "Oklahoma", "Florida", "Auburn", "Baylor", "Wisconsin", "Michigan", "Texas", "Iowa", "Oklahoma State", "Kansas State"
+]
 
 
 def index(request):
@@ -81,3 +87,27 @@ def schedule(request):
     }
 
     return render(request, "schedule.html", context=context)
+
+
+def standings(request):
+
+    conferences = Conference.objects.all()
+
+    context = {
+        "CP": [School.objects.get(name=s) for s in COACHESPOLL],
+    }
+
+    for conf in conferences:
+        context[conf.abbreviation] = School.objects.filter(conference__abbreviation=conf)
+
+    # query W/L for all schools
+    """table = [
+        [s.abbreviation,
+         Game.objects.filter(home=s).filter(homeScore__gt=F("awayScore")).aggregate(Count("home"))["home__count"],
+         0, 0, 0, 1.0] for s in School.objects.all()
+    ]"""
+
+    #print(pd.DataFrame(table, columns=["School", "W", "L", "CW", "CL", "C%"]))
+
+    return render(request, "standings.html", context=context)
+

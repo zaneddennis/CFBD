@@ -33,7 +33,7 @@ class School(models.Model):
 
 class AI(models.Model):
 
-    name = models.CharField(max_length=16)
+    name = models.CharField(max_length=30)
 
     def __str__(self):
         return "AI<{}>".format(self.name)

@@ -1,0 +1,73 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+    <h2>Standings</h2>
+
+    <section class="widget">
+        <h3>Coaches' Poll</h3>
+
+        <ol>
+            {% for school in CP %}
+                <li>{{ school }}</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <br/>
+    <br/>
+
+    <section class="widget">
+        <h3>Atlantic Coast Conference (ACC)</h3>
+
+        <ol>
+            {% for school in ACC%}
+                <li>{{ school }}</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <section class="widget">
+        <h3>Big Ten Conference (B1G)</h3>
+
+        <ol>
+            {% for school in B1G%}
+                <li>{{ school }}</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <br/>
+    <br/>
+
+    <section class="widget">
+        <h3>Big 12 Conference (XII)</h3>
+
+        <ol>
+            {% for school in XII%}
+                <li>{{ school }}</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <section class="widget">
+        <h3>Pacific 12 Conference (PAC)</h3>
+
+        <ol>
+            {% for school in PAC%}
+                <li>{{ school }}</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <section class="widget">
+        <h3>Southeastern Conference (SEC)</h3>
+
+        <ol>
+            {% for school in SEC%}
+                <li>{{ school }}</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+
+{% endblock %}
