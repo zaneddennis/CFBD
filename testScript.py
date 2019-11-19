@@ -4,7 +4,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cfbd.settings")
 import django
 django.setup()
 
-# import main.models as models
 from main import models
 import GSP.Game as GSP
 import datetime

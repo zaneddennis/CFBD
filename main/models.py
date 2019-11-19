@@ -3,6 +3,12 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 
+class Season(models.Model):
+
+    year = models.IntegerField(primary_key=True)
+    champion = models.ForeignKey("School", on_delete=models.SET_NULL, null=True, related_name="+", blank=True)
+
+
 class Conference(models.Model):
 
     name = models.CharField(max_length=40)
@@ -21,6 +27,7 @@ class School(models.Model):
     state = models.CharField(max_length=2)
 
     conference = models.ForeignKey(Conference, on_delete=models.SET_NULL, null=True)
+    division = models.CharField(max_length=10, blank=True)
 
     coach = models.ForeignKey("Coach", on_delete=models.SET_NULL, null=True, related_name="+")
 
@@ -72,11 +79,26 @@ class Message(models.Model):
         return "Message<{}, {}, \"{}{}\">".format(self.sender, self.recipient, self.content[:20], "..." if len(self.content) > 10 else "")
 
 
+class Team(models.Model):
+
+    school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True)
+    coach = models.ForeignKey(Coach, on_delete=models.SET_NULL, null=True)
+    season = models.ForeignKey(Season, on_delete=models.SET_NULL, null=True)
+
+    wins = models.IntegerField()
+    losses = models.IntegerField()
+    conf_wins = models.IntegerField()
+    conf_losses = models.IntegerField()
+
+    def __str__(self):
+        return "Team<{}, {}>".format(self.school.name, self.season.year)
+
+
 class Game(models.Model):
 
     # for all games
-    away = models.ForeignKey(School, on_delete=models.SET_NULL, null=True, related_name="+")
-    home = models.ForeignKey(School, on_delete=models.SET_NULL, null=True, related_name="+")
+    away = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name="+")
+    home = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name="+")
     datetime = models.DateTimeField()
     season = models.IntegerField()
     week = models.IntegerField()
