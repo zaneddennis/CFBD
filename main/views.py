@@ -10,7 +10,7 @@ import pandas as pd
 
 
 # constants
-SEASON = 2019
+SEASON = 2020
 WEEK = 2
 
 COACHESPOLL = [
@@ -85,6 +85,7 @@ def schedule(request):
         "range": range(weekMin, weekMax+1),
         "currentWeek": WEEK
     }
+    print(context["games"])
 
     return render(request, "schedule.html", context=context)
 

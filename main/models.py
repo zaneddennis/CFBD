@@ -12,7 +12,7 @@ class Season(models.Model):
 class Conference(models.Model):
 
     name = models.CharField(max_length=40)
-    abbreviation = models.CharField(max_length=3)
+    abbreviation = models.CharField(max_length=4)
 
     def __str__(self):
         return self.abbreviation
@@ -29,7 +29,7 @@ class School(models.Model):
     conference = models.ForeignKey(Conference, on_delete=models.SET_NULL, null=True)
     division = models.CharField(max_length=10, blank=True)
 
-    coach = models.ForeignKey("Coach", on_delete=models.SET_NULL, null=True, related_name="+")
+    coach = models.ForeignKey("Coach", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
 
     def get_absolute_url(self):
         return reverse("school-detail", args=[str(self.id)])
