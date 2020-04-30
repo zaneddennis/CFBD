@@ -6,6 +6,8 @@ from main.forms import *
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+from .Subtemplating import standings as stGenerator
+
 import pandas as pd
 
 
@@ -95,20 +97,14 @@ def standings(request):
     conferences = Conference.objects.all()
 
     context = {
-        "CP": [School.objects.get(name=s) for s in COACHESPOLL],
+        "CP": [Team.objects.get(school__name=s, season__year=SEASON) for s in COACHESPOLL],
+        #"ACC": stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation="ACC"), Team.objects.filter(school__conference__abbreviation="ACC", season__year=SEASON)),
+        #"BigXII": stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation="XII"), Team.objects.filter(school__conference__abbreviation="XII", season__year=SEASON)),
+        #"PacXII": stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation="PAC"), Team.objects.filter(school__conference__abbreviation="PAC", season__year=SEASON)),
+        #"SEC": stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation="SEC"), Team.objects.filter(school__conference__abbreviation="SEC", season__year=SEASON)),
+        "conferences": [stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation=c.abbreviation), Team.objects.filter(school__conference__abbreviation=c.abbreviation, season__year=SEASON)) for c in conferences]
     }
 
-    for conf in conferences:
-        context[conf.abbreviation] = School.objects.filter(conference__abbreviation=conf)
-
-    # query W/L for all schools
-    """table = [
-        [s.abbreviation,
-         Game.objects.filter(home=s).filter(homeScore__gt=F("awayScore")).aggregate(Count("home"))["home__count"],
-         0, 0, 0, 1.0] for s in School.objects.all()
-    ]"""
-
-    #print(pd.DataFrame(table, columns=["School", "W", "L", "CW", "CL", "C%"]))
 
     return render(request, "standings.html", context=context)
 

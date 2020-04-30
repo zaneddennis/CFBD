@@ -17,9 +17,13 @@ if __name__ == "__main__":
 
     s = models.Season(YEAR)
     s.save()
+    #s = models.Season.objects.get(year=YEAR) temporary revision for use case of adding schools to existing season
 
     schools = models.School.objects.all()
     for school in schools:
-        print(school)
-        team = models.Team(school=school, coach=school.coach, season=s, wins=0, losses=0, conf_wins=0, conf_losses=0)
-        team.save()
+        if models.Team.objects.filter(school=school, season=s).count() > 0:
+            pass
+        else:
+            print(school)
+            team = models.Team(school=school, coach=school.coach, season=s, wins=0, losses=0, conf_wins=0, conf_losses=0)
+            team.save()

@@ -13,6 +13,8 @@ class Conference(models.Model):
 
     name = models.CharField(max_length=40)
     abbreviation = models.CharField(max_length=4)
+    division1 = models.CharField(max_length=10, blank=True)
+    division2 = models.CharField(max_length=10, blank=True)
 
     def __str__(self):
         return self.abbreviation
