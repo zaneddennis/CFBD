@@ -59,10 +59,16 @@ def GenerateStandingsTable(teams):
         if t.conf_wins + t.conf_losses > 0:
             cPct = t.conf_wins / (t.conf_wins + t.conf_losses)
 
-        rows.append((t.school.name, t.wins, t.losses, pct, t.conf_wins, t.conf_losses, cPct))
+        rows.append((TeamLink(t), t.wins, t.losses, pct, t.conf_wins, t.conf_losses, cPct))
     df = pd.DataFrame(rows, columns=["Team", "Wins", "Losses", "Pct", "Conf. Wins", "Conf. Losses", "Conf. Pct"])
     df = df.sort_values(by="Conf. Pct", ascending=False)
     df = df.reset_index(drop=True)
     df.index = df.index + 1
-    table = df.to_html()
+    table = df.to_html(escape=False)
+
+    print(table)
     return table
+
+
+def TeamLink(t):
+    return "<a href=\"/school/{}\">{}</a>".format(t.school.abbreviation, t.school.abbreviation)

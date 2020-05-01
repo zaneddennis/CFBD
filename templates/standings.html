@@ -16,14 +16,11 @@
     <br/>
     <br/>
 
-    {{ ACC | safe }}
-    {{ BigXII | safe }}
-    {{ PacXII | safe }}
-    {{ SEC | safe }}
-
+    {% autoescape off %}
     {% for conf in conferences %}
         {{ conf | safe }}
     {% endfor %}
+    {% endautoescape %}
 
 {% endblock %}
 

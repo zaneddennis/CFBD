@@ -59,7 +59,14 @@ class Coach(models.Model):
         if self.user:
             return "Coach<" + self.user.username + ", " + self.school.name + ">"
         else:
-            return "Coach<" + str(self.ai) + ", " + self.school.name + ">"
+            #print(self.school)
+            #print(type(self.school))
+            #print()
+            try:
+                return "Coach<" + str(self.ai) + ", " + self.school.name + ">"  # weird bug in this line when I try to do school.name???
+            except:
+                return"Coach<" + str(self.ai) + ", ERROR_NO_SCHOOL>"
+            #return "Coach<" + str(self.ai) + ">"
 
     @property
     def get_name(self):
