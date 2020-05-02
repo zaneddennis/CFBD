@@ -1,0 +1,15 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+
+    {% load static %}
+    <img src="{% static 'images/logos/' %}{{ team.school.abbreviation }}.png" alt="School Logo">
+    <h2>{{ team.season.year }} {{ team.school.name }} {{ team.school.mascot }}</h2>
+    <h3>{{ team.wins }}-{{ team.losses }} ({{ team.conf_wins }}-{{ team.conf_losses }})</h3>
+    <h3>Coach: {{ team.school.coach }}</h3>
+
+    {% for game in schedule %}
+        <p>{{ game }}</p>
+    {% endfor %}
+
+{% endblock %}

@@ -90,7 +90,7 @@ class Message(models.Model):
 
 class Team(models.Model):
 
-    school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
     coach = models.ForeignKey(Coach, on_delete=models.SET_NULL, null=True)
     season = models.ForeignKey(Season, on_delete=models.SET_NULL, null=True)
 
@@ -100,7 +100,10 @@ class Team(models.Model):
     conf_losses = models.IntegerField()
 
     def __str__(self):
-        return "Team<{}, {}>".format(self.school.name, self.season.year)
+        try:
+            return "Team<{}, {}>".format(self.school.name, self.season.year)
+        except:
+            return "Team<ERROR>"
 
 
 class Game(models.Model):

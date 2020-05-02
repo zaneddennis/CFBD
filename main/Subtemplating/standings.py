@@ -70,5 +70,6 @@ def GenerateStandingsTable(teams):
     return table
 
 
+# todo: replace this with non-hardcoded version (reverse?)
 def TeamLink(t):
     return "<a href=\"/school/{}\">{}</a>".format(t.school.abbreviation, t.school.abbreviation)

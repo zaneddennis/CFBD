@@ -8,12 +8,10 @@ from django.urls import reverse
 
 from .Subtemplating import standings as stGenerator
 
-import pandas as pd
-
 
 # constants
 SEASON = 2020
-WEEK = 2
+WEEK = 0
 
 COACHESPOLL = [
     "LSU", "Ohio State", "Clemson", "Georgia", "Alabama", "Oregon", "Utah", "Minnesota", "Penn State", "Oklahoma", "Florida", "Auburn", "Baylor", "Wisconsin", "Michigan", "Texas", "Iowa", "Oklahoma State", "Kansas State"
@@ -36,6 +34,17 @@ class SchoolDetailView(generic.DetailView):
 
 class CoachDetailView(generic.DetailView):
     model = Coach
+
+
+class TeamDetailView(generic.DetailView):
+    model = Team
+
+    def get_context_data(self, **kwargs):
+        context = super(TeamDetailView, self).get_context_data(**kwargs)
+        context["schedule"] = Game.objects.filter(away__school=context["team"].school) | Game.objects.filter(home__school=context["team"].school)
+        context["schedule"] = context["schedule"].order_by("week")
+
+        return context
 
 
 def messages(request):
@@ -98,13 +107,8 @@ def standings(request):
 
     context = {
         "CP": [Team.objects.get(school__name=s, season__year=SEASON) for s in COACHESPOLL],
-        #"ACC": stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation="ACC"), Team.objects.filter(school__conference__abbreviation="ACC", season__year=SEASON)),
-        #"BigXII": stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation="XII"), Team.objects.filter(school__conference__abbreviation="XII", season__year=SEASON)),
-        #"PacXII": stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation="PAC"), Team.objects.filter(school__conference__abbreviation="PAC", season__year=SEASON)),
-        #"SEC": stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation="SEC"), Team.objects.filter(school__conference__abbreviation="SEC", season__year=SEASON)),
         "conferences": [stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation=c.abbreviation), Team.objects.filter(school__conference__abbreviation=c.abbreviation, season__year=SEASON)) for c in conferences]
     }
-
 
     return render(request, "standings.html", context=context)
 
