@@ -121,3 +121,24 @@ class Game(models.Model):
 
     def __str__(self):
         return "Game<{} @ {}, {}, W{}>".format(self.away, self.home, self.season, self.week)
+
+
+class Player(models.Model):
+
+    AGE_CHOICES = (
+        ("FR", "Freshman"),
+        ("SO", "Sophomore"),
+        ("JR", "Junior"),
+        ("SR", "Senior"),
+        ("AL", "Alum")
+    )
+
+    first = models.CharField(max_length=20)
+    last = models.CharField(max_length=20)
+    jersey = models.IntegerField()
+    age = models.CharField(max_length=2, choices=AGE_CHOICES)
+    school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return "Player<{} {}>".format(self.first, self.last)
+

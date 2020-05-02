@@ -43,7 +43,6 @@ class TeamDetailView(generic.DetailView):
         context = super(TeamDetailView, self).get_context_data(**kwargs)
         context["schedule"] = Game.objects.filter(away__school=context["team"].school) | Game.objects.filter(home__school=context["team"].school)
         context["schedule"] = context["schedule"].order_by("week")
-
         return context
 
 

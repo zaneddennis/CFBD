@@ -17,4 +17,11 @@
     {% else %}
         Current Coach: None
     {% endif %}
+
+    <h3>Roster:</h3>
+    {% for p in school.player_set.all %}
+        {% if p.age != "AL" %}
+            <p>{{ p }}</p>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

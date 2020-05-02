@@ -66,7 +66,6 @@ def GenerateStandingsTable(teams):
     df.index = df.index + 1
     table = df.to_html(escape=False)
 
-    print(table)
     return table
 
 
