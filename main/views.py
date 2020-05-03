@@ -46,6 +46,10 @@ class TeamDetailView(generic.DetailView):
         return context
 
 
+class PlayerDetailView(generic.DetailView):
+    model = Player
+
+
 def messages(request):
     sent = Message.objects.filter(sender=request.user)
     received = Message.objects.filter(recipient=request.user)
