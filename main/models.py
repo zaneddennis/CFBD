@@ -133,11 +133,71 @@ class Player(models.Model):
         ("AL", "Alum")
     )
 
+    POS_CHOICES = (
+        ("QB", "Quarterback"),
+        ("RB", "Running Back"),
+        ("WR", "Wide Receiver"),
+        ("TE", "Tight End"),
+        ("OL", "Offensive Line"),
+        ("DT", "Defensive Tackle"),
+        ("EDGE", "Edge Defender"),
+        ("LB", "Linebacker"),
+        ("CB", "Cornerback"),
+        ("S", "Safety"),
+        ("K", "Kicker"),
+        ("P", "Punter")
+    )
+
     first = models.CharField(max_length=20)
     last = models.CharField(max_length=20)
-    jersey = models.IntegerField()
+    jersey = models.IntegerField(default=1)
+    height = models.IntegerField()
+    weight = models.IntegerField()
+
+    position = models.CharField(max_length=2, choices=POS_CHOICES)
     age = models.CharField(max_length=2, choices=AGE_CHOICES)
     school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True)
+    scholarship = models.BooleanField()
+    stars = models.IntegerField(default=2)
+
+    t_strength = models.FloatField(default=0.0)
+    t_athleticism = models.FloatField(default=0.0)
+    t_dexterity = models.FloatField(default=0.0)
+    t_iq = models.FloatField(default=0.0)
+    t_personality = models.FloatField(default=0.0)
+    t_arm = models.FloatField(default=0.0)
+    t_leg = models.FloatField(default=0.0)
+
+    s_armStr = models.FloatField(default=0.0)
+    s_armAccShort = models.FloatField(default=0.0)
+    s_armAccMed = models.FloatField(default=0.0)
+    s_armAccLong = models.FloatField(default=0.0)
+
+    s_readDefPass = models.FloatField(default=0.0)
+    s_readDefRun = models.FloatField(default=0.0)
+
+    s_speed = models.FloatField(default=0.0)
+    s_acceleration = models.FloatField(default=0.0)
+    s_agility = models.FloatField(default=0.0)
+    s_runPower = models.FloatField(default=0.0)
+    s_vertical = models.FloatField(default=0.0)
+    s_hands = models.FloatField(default=0.0)
+
+    s_runBlock = models.FloatField(default=0.0)
+    s_passBlock = models.FloatField(default=0.0)
+
+    s_tackApproach = models.FloatField(default=0.0)
+    s_tackBringDown = models.FloatField(default=0.0)
+    s_shedBlockStr = models.FloatField(default=0.0)
+    s_shedBlockAgl = models.FloatField(default=0.0)
+    s_coverMan = models.FloatField(default=0.0)
+    s_coverZone = models.FloatField(default=0.0)
+    s_readOff = models.FloatField(default=0.0)
+
+    s_kickPow = models.FloatField(default=0.0)
+    s_kickAcc = models.FloatField(default=0.0)
+    s_puntPow = models.FloatField(default=0.0)
+    s_puntAcc = models.FloatField(default=0.0)
 
     def __str__(self):
         return "Player<{} {}>".format(self.first, self.last)

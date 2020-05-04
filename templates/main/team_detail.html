@@ -4,12 +4,19 @@
 
     {% load static %}
     <img src="{% static 'images/logos/' %}{{ team.school.abbreviation }}.png" alt="School Logo">
-    <h2>{{ team.season.year }} {{ team.school.name }} {{ team.school.mascot }}</h2>
+    <h2>{{ team.season.year }} <a href="/school/{{ team.school.abbreviation }}">{{ team.school.name }} {{ team.school.mascot }}</a></h2>
     <h3>{{ team.wins }}-{{ team.losses }} ({{ team.conf_wins }}-{{ team.conf_losses }})</h3>
     <h3>Coach: {{ team.school.coach }}</h3>
 
+    <h2>Schedule:</h2>
+
     {% for game in schedule %}
         <p>{{ game }}</p>
+    {% endfor %}
+
+    <h2>Roster:</h2>
+    {% for player in team.school.player_set.all %}
+        <p>{{ player.first }} {{ player.last }} - {{ player.position }} ({{ player.age }}) - {{ player.stars }}*</p>
     {% endfor %}
 
 {% endblock %}
