@@ -15,7 +15,7 @@
     {% endfor %}
 
     <h2>Roster:</h2>
-    {% for player in team.school.player_set.all %}
+    {% for player in team.school.player_set.all|dictsort:"position" %}
         <p>{{ player.first }} {{ player.last }} - {{ player.position }} ({{ player.age }}) - {{ player.stars }}*</p>
     {% endfor %}
 

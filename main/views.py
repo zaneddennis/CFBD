@@ -28,6 +28,8 @@ def index(request):
     return render(request, "index.html", context=context)
 
 
+# Detail views
+
 class SchoolDetailView(generic.DetailView):
     model = School
 
@@ -48,6 +50,47 @@ class TeamDetailView(generic.DetailView):
 
 class PlayerDetailView(generic.DetailView):
     model = Player
+
+
+# NavBar Views
+
+def schedule(request):
+
+    weekMax = Game.objects.filter(season=SEASON).aggregate(Max("week"))["week__max"]
+    weekMin = Game.objects.filter(season=SEASON).aggregate(Min("week"))["week__min"]
+
+    context = {
+        "games": Game.objects.filter(season=SEASON),
+        "range": range(weekMin, weekMax+1),
+        "currentWeek": WEEK
+    }
+    print(context["games"])
+
+    return render(request, "schedule.html", context=context)
+
+
+def standings(request):
+
+    conferences = Conference.objects.all()
+
+    context = {
+        "CP": [Team.objects.get(school__name=s, season__year=SEASON) for s in COACHESPOLL],
+        "conferences": [stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation=c.abbreviation), Team.objects.filter(school__conference__abbreviation=c.abbreviation, season__year=SEASON)) for c in conferences]
+    }
+
+    return render(request, "standings.html", context=context)
+
+
+def coaching(request):
+    uc = Coach.objects.filter(user=request.user)
+    if uc.exists():
+        uc = uc.first()
+    else:
+        uc = None
+
+    context = {"userCoach": uc}
+
+    return render(request, "coaching.html", context=context)
 
 
 def messages(request):
@@ -89,29 +132,13 @@ def messages(request):
     return render(request, "messages.html", context=context)
 
 
-def schedule(request):
+# Coaching Subsections
 
-    weekMax = Game.objects.filter(season=SEASON).aggregate(Max("week"))["week__max"]
-    weekMin = Game.objects.filter(season=SEASON).aggregate(Min("week"))["week__min"]
-
-    context = {
-        "games": Game.objects.filter(season=SEASON),
-        "range": range(weekMin, weekMax+1),
-        "currentWeek": WEEK
-    }
-    print(context["games"])
-
-    return render(request, "schedule.html", context=context)
-
-
-def standings(request):
-
-    conferences = Conference.objects.all()
+def depthChart(request):
+    positions = ["QB", "RB", "WR", "TE", "LT", "LG", "C", "RG", "RT"]  # todo: vary position list by scheme
 
     context = {
-        "CP": [Team.objects.get(school__name=s, season__year=SEASON) for s in COACHESPOLL],
-        "conferences": [stGenerator.GenerateStandingsHTML(Conference.objects.get(abbreviation=c.abbreviation), Team.objects.filter(school__conference__abbreviation=c.abbreviation, season__year=SEASON)) for c in conferences]
+        "positions": positions
     }
 
-    return render(request, "standings.html", context=context)
-
+    return render(request, "depthChart.html", context=context)

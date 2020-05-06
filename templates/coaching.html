@@ -1,0 +1,34 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+    <h2>Coaching</h2>
+
+    {% if userCoach %}
+        {% load static %}
+        <img src="{% static 'images/logos/' %}{{ userCoach.school.abbreviation }}.png" alt="School Logo">
+        <p>{{ userCoach.school }}</p>
+        <hr>
+
+        <a href="{% url "depth-chart" %}" class="coachingSubsectionLink">Depth Chart</a>
+        <p>(Summaries/alerts go here)</p>
+        <hr>
+
+        <a href="" class="coachingSubsectionLink">Practice</a>
+        <p>(Summaries/alerts go here)</p>
+        <hr>
+
+        <a href="" class="coachingSubsectionLink">Schemes</a>
+        <p>(Summaries/alerts go here)</p>
+        <hr>
+
+        <a href="" class="coachingSubsectionLink">Scouting</a>
+        <p>(Summaries/alerts go here)</p>
+        <hr>
+
+        <!-- gameplanning? -->
+
+    {% else %}
+        <p>You are not the coach of any team!</p>
+    {% endif %}
+
+{% endblock %}

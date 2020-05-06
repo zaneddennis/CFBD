@@ -1,0 +1,11 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+    <h2>Depth Chart</h2>
+
+    {% for pos in positions %}
+        <h3>{{ pos }}</h3>
+        <hr>
+    {% endfor %}
+
+{% endblock %}
