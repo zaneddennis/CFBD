@@ -3,7 +3,9 @@
 {% block content %}
 
     <h2>{{ player.first }} {{ player.last }}</h2>
-    <p>{{ player.school }}</p>
-    <p>{{ player.age }}</p>
+
+    {% for pt in player.playerteam_set.all %}
+        <p>{{ pt.team.season.year }} - {{ pt.team.school }} - {{ pt.age }}</p>
+    {% endfor %}
 
 {% endblock %}

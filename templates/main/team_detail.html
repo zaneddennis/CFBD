@@ -19,4 +19,8 @@
         <p>{{ player.first }} {{ player.last }} - {{ player.position }} ({{ player.age }}) - {{ player.stars }}*</p>
     {% endfor %}
 
+    {% for pt in team.playerteam_set.all|dictsort:"player.position" %}
+        <p>{{ pt.player.first }} {{ pt.player.last }} - {{ pt.player.position }} ({{ pt.age }}) - {{ pt.player.stars }}</p>
+    {% endfor %}
+
 {% endblock %}

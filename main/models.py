@@ -156,7 +156,7 @@ class Player(models.Model):
 
     position = models.CharField(max_length=2, choices=POS_CHOICES)
     age = models.CharField(max_length=2, choices=AGE_CHOICES)
-    school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True)
+    #school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True)
     scholarship = models.BooleanField()
     stars = models.IntegerField(default=2)
 
@@ -202,3 +202,9 @@ class Player(models.Model):
     def __str__(self):
         return "Player<{} {}>".format(self.first, self.last)
 
+
+class PlayerTeam(models.Model):
+
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    age = models.CharField(max_length=2, choices=Player.AGE_CHOICES)
