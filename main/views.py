@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .Subtemplating import standings as stGenerator
+from .Subtemplating import depthChart as dcGenerator
 
 
 # constants
@@ -135,10 +136,23 @@ def messages(request):
 # Coaching Subsections
 
 def depthChart(request):
-    positions = ["QB", "RB", "WR", "TE", "LT", "LG", "C", "RG", "RT"]  # todo: vary position list by scheme
+    if request.POST:
+        print("SAVE STRING CHANGES TO DB")
+        dcGenerator.SaveChanges(request.POST)
+
+    uc = Coach.objects.filter(user=request.user).first()
+    team = uc.school.team_set.last()
+
+    positions = ["QB", "RB", "WR", "TE", "LT", "LG", "C", "RG", "RT",
+                 "DT", "DE", "LB", "CB", "FS", "SS", "K", "P"]  # todo: vary position list by scheme
+
+    posDict = {}
+    for pos in positions:
+        posDict[pos] = dcGenerator.GeneratePositionTable(pos, team, positions)
 
     context = {
-        "positions": positions
+        "team": team,
+        "posDict": posDict
     }
 
     return render(request, "depthChart.html", context=context)

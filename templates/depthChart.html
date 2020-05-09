@@ -3,9 +3,16 @@
 {% block content %}
     <h2>Depth Chart</h2>
 
-    {% for pos in positions %}
+    {{ team }}
+
+    <form action="{% url "depth-chart" %}" method="post">
+    {% csrf_token %}
+    {% for pos, pTable in posDict.items %}
         <h3>{{ pos }}</h3>
+        {{ pTable | safe}}
         <hr>
     {% endfor %}
+    <input type="submit" value="Save">
+    </form>
 
 {% endblock %}

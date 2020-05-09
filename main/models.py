@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+import numpy as np
+
 
 class Season(models.Model):
 
@@ -156,7 +158,6 @@ class Player(models.Model):
 
     position = models.CharField(max_length=2, choices=POS_CHOICES)
     age = models.CharField(max_length=2, choices=AGE_CHOICES)
-    #school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True)
     scholarship = models.BooleanField()
     stars = models.IntegerField(default=2)
 
@@ -202,9 +203,127 @@ class Player(models.Model):
     def __str__(self):
         return "Player<{} {}>".format(self.first, self.last)
 
+    def GetBadges(self):
+        bl = []
+
+        if self.s_armStr > 85:
+            bl.append("CAN III")
+        elif self.s_armStr > 75:
+            bl.append("CAN II")
+        elif self.s_armStr > 65:
+            bl.append("CAN I")
+
+        ttn = np.mean((self.s_armAccShort, self.s_armAccMed, self.s_armAccLong))
+        if ttn > 75:
+            bl.append("TTN III")
+        elif ttn > 65:
+            bl.append("TTN II")
+        elif ttn > 60:
+            bl.append("TTN I")
+
+        if self.s_readDefPass > 85:
+            bl.append("ASE III")
+        elif self.s_readDefPass > 75:
+            bl.append("ASE II")
+        elif self.s_readDefPass > 65:
+            bl.append("ASE I")
+
+        if self.s_readDefRun > 85:
+            bl.append("TSA III")
+        elif self.s_readDefRun > 75:
+            bl.append("TSA II")
+        elif self.s_readDefRun > 65:
+            bl.append("TSA I")
+
+        blz = np.mean((self.s_speed, self.s_acceleration))
+        if blz > 80:
+            bl.append("BLZ III")
+        elif blz > 70:
+            bl.append("BLZ II")
+        elif blz > 65:
+            bl.append("BLZ I")
+
+        if self.s_agility > 85:
+            bl.append("OAD III")
+        elif self.s_agility > 75:
+            bl.append("OAD II")
+        elif self.s_agility > 65:
+            bl.append("OAD I")
+
+        if self.s_runPower > 85:
+            bl.append("TRK III")
+        elif self.s_runPower > 75:
+            bl.append("TRK II")
+        elif self.s_runPower > 65:
+            bl.append("TRK I")
+
+        if self.s_vertical > 85:
+            bl.append("SKY III")
+        elif self.s_vertical > 75:
+            bl.append("SKY II")
+        elif self.s_vertical > 65:
+            bl.append("SKY I")
+
+        if self.s_hands > 85:
+            bl.append("STK III")
+        elif self.s_hands > 75:
+            bl.append("STK II")
+        elif self.s_hands > 65:
+            bl.append("STK I")
+
+        if self.s_runBlock > 85:
+            bl.append("DOZ III")
+        elif self.s_runBlock > 75:
+            bl.append("DOZ II")
+        elif self.s_runBlock > 65:
+            bl.append("DOZ I")
+
+        if self.s_passBlock > 85:
+            bl.append("BWK III")
+        elif self.s_passBlock > 75:
+            bl.append("BWK II")
+        elif self.s_passBlock > 65:
+            bl.append("BWK I")
+
+        ham = np.mean((self.s_tackApproach, self.s_tackBringDown))
+        if ham > 80:
+            bl.append("HAM III")
+        elif ham > 70:
+            bl.append("HAM II")
+        elif ham > 65:
+            bl.append("HAM I")
+
+        unb = np.mean((self.s_shedBlockAgl, self.s_shedBlockStr))
+        if unb > 80:
+            bl.append("UNB III")
+        elif unb > 70:
+            bl.append("UNB II")
+        elif unb > 65:
+            bl.append("UNB I")
+
+        if self.s_readOff > 85:
+            bl.append("DET III")
+        elif self.s_readOff > 75:
+            bl.append("DET II")
+        elif self.s_readOff > 65:
+            bl.append("DET I")
+
+        lck = np.mean((self.s_coverMan, self.s_coverZone))
+        if lck > 80:
+            bl.append("LCK III")
+        elif lck > 70:
+            bl.append("LCK II")
+        elif lck > 65:
+            bl.append("LCK I")
+
+        return ", ".join(bl)
+
 
 class PlayerTeam(models.Model):
 
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True)
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     age = models.CharField(max_length=2, choices=Player.AGE_CHOICES)
+    string = models.IntegerField(default=99)
+
+    # on-field (box score) stats go here
