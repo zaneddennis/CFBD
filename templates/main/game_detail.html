@@ -1,14 +1,26 @@
 {% extends "baseGeneric.html" %}
 
 {% block content %}
-    <h2>{{ game.away.school.name }} @ {{ game.home.school.name }}</h2>
 
-    {% if game.status == "F" %}
-        <h3>{{ game.datetime }}</h3>
-    {% elif game.status == "P" %}
+    {% load static %}
+    <div class="row">
+        <div class="column" id="awayCol">
+            <img src="{% static 'images/logos/' %}{{ game.away.school.abbreviation }}.png" alt="School Logo">
+            <h2>{{ game.away.school.name }}</h2>
+        </div>
+        <div class="column" id="atCol">
+            <h2 style="padding: 128px;">@</h2>
+        </div>
+        <div class="column" id="homeCol">
+            <img src="{% static 'images/logos/' %}{{ game.home.school.abbreviation }}.png" alt="School Logo">
+            <h2>{{ game.home.school.name }}</h2>
+        </div>
+    </div>
 
-    {% else %}
-        <h3>{{ game.awayScore }} - {{ game.homeScore }}</h3>
-    {% endif %}
+    <div style="text-align: center">
+        {% if game.status == "F" %}
+            <h2>{{ game.datetime }}</h2>
+        {% endif %}
+    </div>
 
 {% endblock %}

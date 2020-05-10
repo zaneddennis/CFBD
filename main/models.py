@@ -124,6 +124,7 @@ class Game(models.Model):
     week = models.IntegerField()
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="F")
+    isScrimmage = models.BooleanField(default=False)
 
     # for past games
     awayScore = models.IntegerField(blank=True, null=True)

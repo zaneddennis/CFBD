@@ -25,6 +25,11 @@ nav a {
     color: white;
 }
 
-.coachingSubsectionLink {
-    color: white;
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 33%;
+    text-align: center;
 }
