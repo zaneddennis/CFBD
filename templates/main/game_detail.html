@@ -1,0 +1,14 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+    <h2>{{ game.away.school.name }} @ {{ game.home.school.name }}</h2>
+
+    {% if game.status == "F" %}
+        <h3>{{ game.datetime }}</h3>
+    {% elif game.status == "P" %}
+
+    {% else %}
+        <h3>{{ game.awayScore }} - {{ game.homeScore }}</h3>
+    {% endif %}
+
+{% endblock %}

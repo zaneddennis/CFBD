@@ -53,6 +53,10 @@ class PlayerDetailView(generic.DetailView):
     model = Player
 
 
+class GameDetailView(generic.DetailView):
+    model = Game
+
+
 # NavBar Views
 
 def schedule(request):

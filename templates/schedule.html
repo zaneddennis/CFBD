@@ -9,10 +9,10 @@
 
             {% for game in games %}
                 {% if game.week == w %}
-                    {% if game.awayScore %}
-                        <p>{{ game.away.school.name }} {{ game.awayScore }} - {{ game.homeScore }} {{ game.home.school.name }}</p>
+                    {% if game.status == "C" %}
+                        <p><a href="/game/{{ game.id }}">{{ game.away.school.name }} {{ game.awayScore }} - {{ game.homeScore }} {{ game.home.school.name }}</a></p>
                     {% else %}
-                        <p>{{ game.away.school.name }} @ {{ game.home.school.name }} - {{ game.datetime }}</p>
+                        <p><a href="/game/{{ game.id }}">{{ game.away.school.name }} @ {{ game.home.school.name }} - {{ game.datetime }}</a></p>
                     {% endif %}
                 {% endif %}
             {% endfor %}

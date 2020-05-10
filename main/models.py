@@ -110,12 +110,20 @@ class Team(models.Model):
 
 class Game(models.Model):
 
+    STATUS_CHOICES = (
+        ("F", "Future"),
+        ("P", "In Progress"),
+        ("C", "Complete"),
+    )
+
     # for all games
     away = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name="+")
     home = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name="+")
     datetime = models.DateTimeField()
     season = models.IntegerField()
     week = models.IntegerField()
+
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="F")
 
     # for past games
     awayScore = models.IntegerField(blank=True, null=True)
