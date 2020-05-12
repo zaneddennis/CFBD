@@ -14,5 +14,7 @@ urlpatterns = [
     path("standings", views.standings, name="standings"),
     path("coaching", views.coaching, name="coaching"),
 
-    path("depthChart", views.depthChart, name="depth-chart")
+    path("depthChart", views.depthChart, name="depth-chart"),
+
+    path("scrimmage", views.scrimmage, name="scrimmage"),
 ]

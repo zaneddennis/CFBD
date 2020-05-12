@@ -4,22 +4,53 @@
 
     {% load static %}
     <div class="row">
-        <div class="column" id="awayCol">
+        <div class="column">
             <img src="{% static 'images/logos/' %}{{ game.away.school.abbreviation }}.png" alt="School Logo">
             <h2>{{ game.away.school.name }}</h2>
+            <h3>{{ game.away.wins }}-{{ game.away.losses }} ({{ game.away.conf_wins }}-{{ game.away.conf_losses }})</h3>
         </div>
-        <div class="column" id="atCol">
+        <div class="column">
             <h2 style="padding: 128px;">@</h2>
         </div>
-        <div class="column" id="homeCol">
+        <div class="column">
             <img src="{% static 'images/logos/' %}{{ game.home.school.abbreviation }}.png" alt="School Logo">
             <h2>{{ game.home.school.name }}</h2>
+            <h3>{{ game.home.wins }}-{{ game.home.losses }} ({{ game.home.conf_wins }}-{{ game.home.conf_losses }})</h3>
         </div>
     </div>
 
     <div style="text-align: center">
-        {% if game.status == "F" %}
+        {% if game.isScrimmage and game.status == "F" %}
+            <h2>Scrimmage</h2>
+
+            <form action="{% url "game-detail" game.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Begin Game">
+            </form>
+
+        {% elif game.status == "F" %}
             <h2>{{ game.datetime }}</h2>
+            <h2>{{ game.home.school.location }}, {{ game.home.school.state }}</h2>
+
+        {% elif game.status == "P" %}
+            <p>In-progress games are not implemented yet. If you see this message, report it to the admins as a bug.</p>
+
+        {% else %}
+
+            <div class="row">
+                <div class="column">
+                    <h2>{{ game.awayScore }}</h2>
+                </div>
+
+                <div class="column">
+                    <h2>-</h2>
+                </div>
+
+                <div class="column">
+                    <h2>{{ game.homeScore }}</h2>
+                </div>
+            </div>
+
         {% endif %}
     </div>
 

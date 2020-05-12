@@ -119,9 +119,9 @@ class Game(models.Model):
     # for all games
     away = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name="+")
     home = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name="+")
-    datetime = models.DateTimeField()
-    season = models.IntegerField()
-    week = models.IntegerField()
+    datetime = models.DateTimeField(blank=True, null=True)
+    season = models.IntegerField(blank=True, null=True)
+    week = models.IntegerField(blank=True, null=True)
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="F")
     isScrimmage = models.BooleanField(default=False)

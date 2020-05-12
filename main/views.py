@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from .Subtemplating import standings as stGenerator
 from .Subtemplating import depthChart as dcGenerator
+from .GSP_v2 import Game as GameSimulation
 
 
 # constants
@@ -55,6 +56,26 @@ class PlayerDetailView(generic.DetailView):
 
 class GameDetailView(generic.DetailView):
     model = Game
+
+    def post(self, request, *args, **kwargs):
+        g = Game.objects.get(id=kwargs["pk"])
+
+        if g.isScrimmage and g.status == "F":
+
+            gSim = GameSimulation.Game(g.away, g.home)
+            results = gSim.simulate()
+
+            g.status = "C"
+            g.awayScore = results.awayPoints
+            g.homeScore = results.homePoints
+
+            g.save()
+
+        context = {
+            "game": g
+        }
+
+        return render(request, "main/game_detail.html", context=context)
 
 
 # NavBar Views
@@ -160,3 +181,27 @@ def depthChart(request):
     }
 
     return render(request, "depthChart.html", context=context)
+
+
+# Other Miscellaneous Pages
+
+def scrimmage(request):
+    if request.method == "POST":
+        form = ScrimmageSetupForm(request.POST)
+        if form.is_valid():
+            # create new Game
+            a = Team.objects.get(school__abbreviation=request.POST["away"])
+            h = Team.objects.get(school__abbreviation=request.POST["home"])
+            game = Game(away=a, home=h, isScrimmage=True)
+            game.save()
+
+            return HttpResponseRedirect(reverse("game-detail", args=[game.id]))
+
+    else:
+        form = ScrimmageSetupForm()
+
+    context = {
+        "form": form
+    }
+
+    return render(request, "scrimmage.html", context=context)
