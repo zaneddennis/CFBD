@@ -8,6 +8,7 @@
             <img src="{% static 'images/logos/' %}{{ game.away.school.abbreviation }}.png" alt="School Logo">
             <h2>{{ game.away.school.name }}</h2>
             <h3>{{ game.away.wins }}-{{ game.away.losses }} ({{ game.away.conf_wins }}-{{ game.away.conf_losses }})</h3>
+            <p>Talent Ratings: {{ awayTalent }}</p>
         </div>
         <div class="column">
             <h2 style="padding: 128px;">@</h2>
@@ -16,6 +17,7 @@
             <img src="{% static 'images/logos/' %}{{ game.home.school.abbreviation }}.png" alt="School Logo">
             <h2>{{ game.home.school.name }}</h2>
             <h3>{{ game.home.wins }}-{{ game.home.losses }} ({{ game.home.conf_wins }}-{{ game.home.conf_losses }})</h3>
+            <p>Talent Ratings: {{ homeTalent }}</p>
         </div>
     </div>
 

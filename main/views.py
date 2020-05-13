@@ -77,6 +77,20 @@ class GameDetailView(generic.DetailView):
 
         return render(request, "main/game_detail.html", context=context)
 
+    def get(self, request, *args, **kwargs):
+        g = Game.objects.get(id=kwargs["pk"])
+
+        print(g.away.TalentRatings())
+        print(g.home.TalentRatings())
+
+        context = {
+            "game": g,
+            "awayTalent": g.away.TalentRatings(),
+            "homeTalent": g.home.TalentRatings()
+        }
+
+        return render(request, "main/game_detail.html", context=context)
+
 
 # NavBar Views
 

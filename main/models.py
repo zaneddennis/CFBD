@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.db.models import Avg
 
 import numpy as np
 
@@ -106,6 +107,19 @@ class Team(models.Model):
             return "Team<{}, {}>".format(self.school.name, self.season.year)
         except:
             return "Team<ERROR>"
+
+    def TalentRatings(self):
+        offPos = ("QB", "RB", "WR", "TE", "OL", "LT", "LG", "C", "RG", "RT")
+        defPos = ("DT", "DE", "EDGE", "LB", "S", "FS", "SS", "CB")
+        stPos = ("K", "P")
+
+        result = {
+            "OFF": self.playerteam_set.filter(player__position__in=offPos).aggregate(Avg("player__stars"))["player__stars__avg"],
+            "DEF": self.playerteam_set.filter(player__position__in=defPos).aggregate(Avg("player__stars"))["player__stars__avg"],
+            "ST": self.playerteam_set.filter(player__position__in=stPos).aggregate(Avg("player__stars"))["player__stars__avg"],
+        }
+
+        return result
 
 
 class Game(models.Model):
