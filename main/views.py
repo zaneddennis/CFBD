@@ -80,9 +80,6 @@ class GameDetailView(generic.DetailView):
     def get(self, request, *args, **kwargs):
         g = Game.objects.get(id=kwargs["pk"])
 
-        print(g.away.TalentRatings())
-        print(g.home.TalentRatings())
-
         context = {
             "game": g,
             "awayTalent": g.away.TalentRatings(),
@@ -204,8 +201,8 @@ def scrimmage(request):
         form = ScrimmageSetupForm(request.POST)
         if form.is_valid():
             # create new Game
-            a = Team.objects.get(school__abbreviation=request.POST["away"])
-            h = Team.objects.get(school__abbreviation=request.POST["home"])
+            a = Team.objects.get(school__abbreviation=request.POST["away"], season__year=2020)
+            h = Team.objects.get(school__abbreviation=request.POST["home"], season__year=2020)
             game = Game(away=a, home=h, isScrimmage=True)
             game.save()
 

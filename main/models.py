@@ -179,7 +179,7 @@ class Player(models.Model):
     height = models.IntegerField()
     weight = models.IntegerField()
 
-    position = models.CharField(max_length=2, choices=POS_CHOICES)
+    position = models.CharField(max_length=4, choices=POS_CHOICES)
     age = models.CharField(max_length=2, choices=AGE_CHOICES)
     scholarship = models.BooleanField()
     stars = models.IntegerField(default=2)
