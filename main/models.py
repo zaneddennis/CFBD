@@ -144,6 +144,9 @@ class Game(models.Model):
     awayScore = models.IntegerField(blank=True, null=True)
     homeScore = models.IntegerField(blank=True, null=True)
 
+    drives = models.CharField(max_length=999999, blank=True, null=True)
+    plays = models.CharField(max_length=999999, blank=True, null=True)
+
     def __str__(self):
         return "Game<{} @ {}, {}, W{}>".format(self.away, self.home, self.season, self.week)
 

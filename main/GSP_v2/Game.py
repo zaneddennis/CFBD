@@ -42,8 +42,10 @@ class Game:
         # coin toss
         if randint(0, 1):
             off = self.aAbb
+            dfs = self.hAbb
         else:
             off = self.hAbb
+            dfs = self.aAbb
 
         # loop drives until game is over
         ko = True
@@ -54,6 +56,9 @@ class Game:
             res = dr[drCols.index("Result")]
             if res in points:
                 scores[off] += points[res]
+            elif res == "SAFETY":
+                #scores[def] += 2
+                pass
 
             self.drives.append(dr + (scores[self.aAbb], scores[self.hAbb]))
 
@@ -65,11 +70,13 @@ class Game:
             # swap offense
             if off == self.aAbb:
                 off = self.hAbb
+                dfs = self.aAbb
             else:
                 off = self.aAbb
+                dfs = self.hAbb
 
             # decide kickoff
-            if res in ("TOUCHDOWN", "FGM"):
+            if res in ("TOUCHDOWN", "FGM", "SAFETY"):
                 ko = True
             else:
                 ko = False
@@ -80,15 +87,14 @@ class Game:
 
         print(self.plays)
         print(self.drives)
-        return GameResult(self.away, self.home, scores)
+        return GameResult(self.away, self.home, scores, self.drives, self.plays)
 
     def simDrive(self, off, ds, kickoff=False):
         self.down = 1
         self.dist = 10
 
         if kickoff:
-            print("Kickoff")
-            # sim kickoff
+            # sim kickoff  (TODO: make this an actual play)
             if random() < 0.5:
                 ds = 25
             else:
@@ -96,7 +102,7 @@ class Game:
             self.yardline = ds
             self.elapseClock(timedelta(seconds=randint(0, 10)))
         else:
-            print("No kickoff")
+            pass
 
         pc = 0
         dy = 0
@@ -156,13 +162,13 @@ class Game:
 
 class GameResult:
 
-    def __init__(self, a, h, score):
+    def __init__(self, a, h, score, drives, plays):
         self.away = a
         self.home = h
         self.homePoints = score[h.school.abbreviation]
         self.awayPoints = score[a.school.abbreviation]
-        #self.drives = drives
-        #self.plays = plays
+        self.drives = drives
+        self.plays = plays.drop(columns=["Turnover", "Elapsed", "RunningClock"])
 
     def __str__(self):
         return "GameResult<{} {} - {} {}>".format(self.away, self.awayPoints, self.homePoints, self.home)

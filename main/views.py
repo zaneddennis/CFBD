@@ -68,11 +68,13 @@ class GameDetailView(generic.DetailView):
             g.status = "C"
             g.awayScore = results.awayPoints
             g.homeScore = results.homePoints
+            g.drives = results.drives.to_html()
+            g.plays = results.plays.to_html()
 
             g.save()
 
         context = {
-            "game": g
+            "game": g,
         }
 
         return render(request, "main/game_detail.html", context=context)
@@ -83,7 +85,7 @@ class GameDetailView(generic.DetailView):
         context = {
             "game": g,
             "awayTalent": g.away.TalentRatings(),
-            "homeTalent": g.home.TalentRatings()
+            "homeTalent": g.home.TalentRatings(),
         }
 
         return render(request, "main/game_detail.html", context=context)
