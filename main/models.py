@@ -352,4 +352,16 @@ class PlayerTeam(models.Model):
     age = models.CharField(max_length=2, choices=Player.AGE_CHOICES)
     string = models.IntegerField(default=99)
 
-    # on-field (box score) stats go here
+    # on-field stats go here
+
+
+class Formation(models.Model):
+
+    name = models.CharField(max_length=100)
+
+    backs = models.IntegerField(default=0)
+    ends = models.IntegerField(default=0)
+    wideouts = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name

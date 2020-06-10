@@ -196,6 +196,18 @@ def depthChart(request):
     return render(request, "depthChart.html", context=context)
 
 
+def offensiveSchemes(request):
+    uc = Coach.objects.filter(user=request.user)
+    if uc.exists():
+        uc = uc.first()
+    else:
+        uc = None
+
+    context = {"userCoach": uc}
+
+    return render(request, "offensiveSchemes.html", context=context)
+
+
 # Other Miscellaneous Pages
 
 def scrimmage(request):

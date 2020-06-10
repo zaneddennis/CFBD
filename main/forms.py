@@ -17,3 +17,9 @@ class ScrimmageSetupForm(forms.Form):
 
     away = forms.ChoiceField(choices=SCHOOLS, required=True)
     home = forms.ChoiceField(choices=SCHOOLS2, required=True)
+
+
+class OffensiveFormationsForm(forms.Form):
+    FORMATIONS = Formation.objects.all()
+
+    formations = forms.MultipleChoiceField(choices=FORMATIONS)

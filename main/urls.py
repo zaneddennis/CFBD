@@ -15,6 +15,7 @@ urlpatterns = [
     path("coaching", views.coaching, name="coaching"),
 
     path("depthChart", views.depthChart, name="depth-chart"),
+    path("offensiveSchemes", views.offensiveSchemes, name="offensive-schemes"),
 
     path("scrimmage", views.scrimmage, name="scrimmage"),
 ]
