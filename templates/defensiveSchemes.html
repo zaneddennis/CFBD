@@ -1,0 +1,30 @@
+{% extends "baseGeneric.html" %}
+
+{% block content %}
+    {% if userCoach %}
+
+        <h2>Defensive Schemes</h2>
+
+        <h3>Base Formations</h3>
+
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <table>
+                {{ form.as_table }}
+            </table>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        <hr>
+
+        <h3>Additional Formations</h3>
+
+        <hr>
+
+        <h3>Wrinkles</h3>
+
+    {% endif %}
+
+{% endblock %}

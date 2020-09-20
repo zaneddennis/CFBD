@@ -7,6 +7,16 @@
 
         <h3>Formations</h3>
 
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <table>
+                {{ form.as_table }}
+            </table>
+
+            <input type="submit" value="Submit">
+        </form>
+
         <hr>
 
         <h3>Playbook</h3>

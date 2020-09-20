@@ -20,6 +20,13 @@ class ScrimmageSetupForm(forms.Form):
 
 
 class OffensiveFormationsForm(forms.Form):
-    FORMATIONS = Formation.objects.all()
+    FORMATIONS = ((f.name, f.name) for f in Formation.objects.all())
 
-    formations = forms.MultipleChoiceField(choices=FORMATIONS)
+    formations = forms.MultipleChoiceField(choices=FORMATIONS, required=False, widget=forms.widgets.CheckboxSelectMultiple)
+
+
+class DefensiveBaseForm(forms.Form):
+    BASES = ((f.name, f.name) for f in DefensiveFormation.objects.filter(isBase=True))
+
+    #formations = forms.MultipleChoiceField(choices=FORMATIONS, required=False, widget=forms.widgets.CheckboxSelectMultiple)
+    base = forms.ChoiceField(choices=BASES, required=False, widget=forms.widgets.RadioSelect)

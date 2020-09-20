@@ -203,9 +203,59 @@ def offensiveSchemes(request):
     else:
         uc = None
 
-    context = {"userCoach": uc}
+    print("Current Coach Formations:", uc.offFormations.all())
+
+    if request.POST:
+
+        form = OffensiveFormationsForm(request.POST)
+        if form.is_valid():
+            print("POST Request:", request.POST)
+            print("Cleaned Data:", form.cleaned_data)
+            newFormations = form.cleaned_data["formations"]  # bug in this line???
+            print("New Formations:", newFormations)
+            print("Saving schemes to DB...")
+
+            for f in newFormations:
+                formation = Formation.objects.get(name=f)
+                if formation not in uc.offFormations.all():
+                    uc.offFormations.add(formation)
+
+    else:
+        cFormations = [f.name for f in Formation.objects.filter(coach=uc)]
+        form = OffensiveFormationsForm(initial={"formations": cFormations})
+
+    context = {
+        "userCoach": uc,
+        "form": form,
+    }
 
     return render(request, "offensiveSchemes.html", context=context)
+
+def defensiveSchemes(request):
+    uc = Coach.objects.filter(user=request.user)
+    if uc.exists():
+        uc = uc.first()
+    else:
+        uc = None
+
+    print("Current Coach Defensive Base:", uc.defBase)
+
+    if request.POST:
+        form = DefensiveBaseForm(request.POST)
+        if form.is_valid():
+            print("Form results:", form.cleaned_data["base"])
+            new_base = form.cleaned_data["base"]
+            uc.defBase = DefensiveFormation.objects.get(name=new_base)
+            uc.save()
+    else:
+        form = DefensiveBaseForm(initial={"base": uc.defBase})
+
+    context = {
+        "userCoach": uc,
+        "form": form
+    }
+
+    return render(request, "defensiveSchemes.html", context=context)
 
 
 # Other Miscellaneous Pages

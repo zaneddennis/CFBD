@@ -58,6 +58,10 @@ class Coach(models.Model):
     almaMater = models.ForeignKey(School, on_delete=models.SET_NULL, null=True, related_name="+")
     school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True, related_name="+")
 
+    offFormations = models.ManyToManyField("Formation")
+    #defFormations = models.ManyToManyField("DefensiveFormation")
+    defBase = models.ForeignKey("DefensiveFormation", on_delete=models.SET_DEFAULT, default=1)
+
     def __str__(self):
         if self.user:
             return "Coach<" + self.user.username + ", " + self.school.name + ">"
@@ -362,6 +366,20 @@ class Formation(models.Model):
     backs = models.IntegerField(default=0)
     ends = models.IntegerField(default=0)
     wideouts = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+class DefensiveFormation(models.Model):
+
+    name = models.CharField(max_length=100)
+    isBase = models.BooleanField()
+
+    linemen = models.IntegerField(default=0)
+    linebackers = models.IntegerField(default=0)
+    corners = models.IntegerField(default=0)
+    safeties = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
